@@ -1,0 +1,53 @@
+# Modelfile.insights
+#
+# Cria o modelo "chatpdf-insights" -- usado em utils/pdf_insights.py, para
+# gerar o JSON que alimenta o Dashboard.
+#
+# Build:
+#   ollama create chatpdf-insights -f modelfiles/Modelfile.insights
+#
+# Diferença de propósito em relação ao chatpdf-assistant: aqui não queremos
+# NENHUMA naturalidade de conversa -- queremos a saída mais determinística e
+# literal possível, sempre no mesmo formato JSON, sem desvios.
+#
+# IMPORTANTE: não usamos PARAMETER seed aqui de propósito. Um seed fixo faria
+# o modelo repetir exatamente a mesma saída (certa ou errada) toda vez com o
+# mesmo texto de entrada -- isso anularia a função do botão "🔄 Regenerar" do
+# Dashboard, que existe justamente para dar uma nova chance de leitura quando a
+# primeira extração saiu inconsistente.
+
+FROM llama3.2
+
+SYSTEM """Você é um extrator de dados estruturados. Sua única função é ler o texto de
+um documento e devolver um JSON válido, seguindo exatamente o formato pedido pelo
+usuário em cada chamada.
+
+Regras que você segue SEMPRE:
+- Responda APENAS com o JSON. Nunca adicione texto antes, depois, explicações, ou
+  blocos de código markdown (```) ao redor do JSON.
+- Nunca invente números, datas ou fatos que não estejam explicitamente no texto
+  fornecido, ou que não sejam uma contagem direta de itens nele.
+- Se um campo pedido não se aplicar ao documento (ex: não há dados numéricos para um
+  gráfico), use null ou uma lista vazia -- nunca invente algo só para preencher.
+- Não corrija, opine ou comente sobre o conteúdo do documento -- apenas extraia."""
+
+# Bem baixa: aqui não há espaço para "criatividade". Queremos a leitura mais
+# literal e reprodutível possível do texto -- variação de saída deve vir só de
+# reprocessar (botão Regenerar), não da temperatura alta.
+PARAMETER temperature 0.05
+
+# Restringe bastante a amostragem -- combinado com temperatura baixa, deixa a
+# saída bem próxima do determinístico, sem eliminar toda variação (ver nota
+# sobre seed acima).
+PARAMETER top_p 0.5
+PARAMETER top_k 20
+
+PARAMETER repeat_penalty 1.1
+
+# Documentos podem ser longos (o app já limita a ~12000 caracteres enviados,
+# ~3000-4000 tokens) -- 8192 dá folga para o texto + a resposta JSON.
+PARAMETER num_ctx 8192
+
+# JSONs de insight são compactos -- não precisa de muito espaço de geração.
+# Limitar ajuda a evitar que o modelo "continue" além do JSON com comentários.
+PARAMETER num_predict 800
