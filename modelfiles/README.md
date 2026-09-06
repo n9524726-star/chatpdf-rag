@@ -1,4 +1,6 @@
-# modelfiles/ — Modelos customizados do chatpdf-app
+# modelfiles/ — Modelos customizados do chatpdf-rag
+
+🇧🇷 Português | 🇺🇸 [English](README.en.md)
 
 Dois modelos, dois propósitos diferentes. Em vez de usar o `llama3.2` cru nos dois
 casos e confiar só no system prompt montado em tempo de execução, "assamos" um
@@ -9,7 +11,7 @@ usado de outro contexto.
 ## Build
 
 ```bash
-cd chatpdf-app
+cd chatpdf-rag
 ollama create chatpdf-assistant -f modelfiles/Modelfile.chat
 ollama create chatpdf-insights  -f modelfiles/Modelfile.insights
 ```

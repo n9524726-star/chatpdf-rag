@@ -1,5 +1,7 @@
 # chatpdf-rag
 
+🇧🇷 Português | 🇺🇸 [English](README.en.md)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 
@@ -11,6 +13,14 @@ Faça upload de um ou mais PDFs, converse com eles com respostas ancoradas
 estritamente no conteúdo enviado, e veja um dashboard gerado automaticamente a
 partir do que cada documento contém — sem esquema fixo, adaptado ao tipo de
 conteúdo de cada arquivo.
+
+## Capturas de tela
+
+<p align="center">
+  <img src="docs/screenshots/login.png" alt="Tela de login" width="30%">
+  <img src="docs/screenshots/chatpdf.png" alt="Conversa no ChatPDF" width="30%">
+  <img src="docs/screenshots/dashboard.png" alt="Dashboard adaptativo" width="30%">
+</p>
 
 ## Por quê
 

@@ -1,5 +1,7 @@
 # Arquitetura Técnica
 
+🇧🇷 Português | 🇺🇸 [English](ARCHITECTURE.en.md)
+
 Detalhamento de arquitetura, responsabilidades de cada módulo e decisões de
 design do `chatpdf-rag`. Complementa o [`README.md`](README.md), que cobre
 instalação e uso.
